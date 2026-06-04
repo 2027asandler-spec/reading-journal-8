@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Psychoanalytic Comparison — Hamlet & The Lion King</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #f5f5f3; font-family: Georgia, serif; }
+    #root { width: 100%; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    const HAMLET = "hamlet";
+    const SIMBA  = "simba";
+    const H_COLOR = "#c0522a";
+    const S_COLOR = "#2d7a4f";
+
+    const DATA = {
+      hamlet: {
+        color: H_COLOR,
+        accent: "#fde8dc",
+        fit: 91,
+        fitNote: "The reading fits tightly — and it fits twice. There are two distinct Oedipal triangles operating in Hamlet simultaneously. The Lion King maps onto only one of them. That's the gap.",
+        fitEvidence: [
+          { quote: "O, most pernicious woman! O villain, villain, smiling, damned villain!", source: "Shakespeare, Hamlet, 1.5" },
+          { quote: "She married. O, most wicked speed, to post / With such dexterity to incestuous sheets!", source: "Shakespeare, Hamlet, 1.2" },
+          { quote: "The serpent that did sting thy father's life / Now wears his crown.", source: "Shakespeare, Hamlet, 1.5" },
+        ],
+        triangles: [
+          {
+            label: "Triangle 1 — The Sexual Charge",
+            nodes: "Hamlet · Gertrude · King Hamlet",
+            description: "This is the reading that is hardest to avoid. Hamlet's obsession with his mother's remarriage is sexual, not merely filial. The closet scene makes it explicit. This triangle has no equivalent in The Lion King — it is the reason the psychoanalytic reading runs deeper in Hamlet.",
+            evidence: [
+              { quote: "In the rank sweat of an enseamed bed, / Stew'd in corruption, honeying and making love / Over the nasty sty.", source: "Shakespeare, Hamlet, 3.4" },
+              { quote: "She married. O, most wicked speed, to post / With such dexterity to incestuous sheets!", source: "Shakespeare, Hamlet, 1.2" },
+            ],
+            parallel: false,
+            tag: null,
+          },
+          {
+            label: "Triangle 2 — The Usurper Dynamic",
+            nodes: "Hamlet · Claudius · King Hamlet",
+            description: "Claudius has enacted what Hamlet can only unconsciously wish for. He killed the father and took his place. This is the structural reason Hamlet cannot act — to kill Claudius would be to complete the same crime. This is the triangle The Lion King maps onto.",
+            evidence: [
+              { quote: "The serpent that did sting thy father's life / Now wears his crown.", source: "Shakespeare, Hamlet, 1.5" },
+              { quote: "O, my prophetic soul! My uncle!", source: "Shakespeare, Hamlet, 1.5" },
+            ],
+            parallel: true,
+            tag: "The Lion King maps here →",
+          },
+        ],
+        avoidance: {
+          canEscape: false,
+          note: "Hamlet has no way out. The Ghost appears in Act I and installs the demand immediately. He spends the whole play unable to act, unable to escape.",
+        },
+        mirror: {
+          catalyst: "The Ghost",
+          note: "Hamlet is confronted with his father's demand from the very beginning. There is no period of forgetting first.",
+        },
+        comic: {
+          pair: "The Gravediggers",
+          fn: "Indifference engine",
+          note: "The Gravediggers treat death as routine — it's their job. That indifference is more unsettling than horror. They force Hamlet (and us) to sit with mortality directly, without softening it.",
+          audienceRole: "The audience laughs and confronts death at the same time. There's no escape hatch.",
+        },
+      },
+      simba: {
+        color: S_COLOR,
+        accent: "#dcf0e6",
+        fit: 64,
+        fitNote: "The reading partially fits — but more precisely, it fits one of Hamlet's two triangles and misses the other entirely. Simba maps onto the usurper dynamic (Triangle 2). Triangle 1, the sexual charge between son, mother, and father, doesn't exist here. Sarabi is barely present. That absence is the argument.",
+        fitEvidence: [
+          { quote: "Hakuna Matata! It means no worries for the rest of your days.", source: 'Rice and John, "Hakuna Matata," The Lion King, 1994' },
+          { quote: "It's our problem-free philosophy.", source: 'Rice and John, "Hakuna Matata," The Lion King, 1994' },
+          { quote: "You have to put the past behind you.", source: "Timon, spoken dialogue. The Lion King, dir. Allers and Minkoff, 1994" },
+        ],
+        triangles: [
+          {
+            label: "The Usurper Triangle",
+            nodes: "Simba · Scar · Mufasa",
+            description: "This maps cleanly onto Hamlet's Triangle 2. The usurper killed the father, seized the kingdom, and displaced the son. The structure is identical. But it is the only triangle here — there is no sexual charge, no maternal desire, no Triangle 1.",
+            evidence: [
+              { quote: "Remember who you are.", source: "Mufasa. The Lion King, dir. Allers and Minkoff, 1994" },
+              { quote: "He lives in you.", source: "Rafiki. The Lion King, dir. Allers and Minkoff, 1994" },
+            ],
+            parallel: true,
+            tag: "← Equivalent to Hamlet's Triangle 2",
+          },
+        ],
+        avoidance: {
+          canEscape: true,
+          note: "Simba runs away and stays gone for years. Timon and Pumbaa give him a philosophy of forgetting — Hakuna Matata — that lets him avoid guilt, identity, and grief. This is the repression mechanism.",
+        },
+        mirror: {
+          catalyst: "Nala",
+          note: "Nala finds Simba and forces him to remember who he is. She is the mirror — she reflects the father back at Simba and makes avoidance impossible.",
+        },
+        comic: {
+          pair: "Timon & Pumbaa",
+          fn: "Deferral engine",
+          note: "Timon and Pumbaa aren't just funny sidekicks — they are the delivery mechanism for Simba's avoidance. Hakuna Matata is a philosophy of structured forgetting. They make it possible for Simba to do nothing for years.",
+          audienceRole: "The audience forgets with Simba. We're pulled into the repression alongside him.",
+        },
+      },
+    };
+
+    const TERMINAL_LINES = [
+      { quote: "Has this fellow no feeling of his business, that he sings at grave-making?", speaker: "Hamlet",           cite: "Shakespeare, Hamlet, 5.1" },
+      { quote: "Custom hath made it in him a property of easiness.",                        speaker: "Horatio",          cite: "Shakespeare, Hamlet, 5.1" },
+      { quote: "In youth, when I did love, did love, / Methought it was very sweet...",     speaker: "First Clown, singing", cite: "Shakespeare, Hamlet, 5.1" },
+      { quote: "Alas, poor Yorick! I knew him, Horatio: a fellow of infinite jest, of most excellent fancy.", speaker: "Hamlet", cite: "Shakespeare, Hamlet, 5.1" },
+      { quote: "Where be your gibes now? your gambols? your songs? your flashes of merriment that were wont to set the table on a roar?", speaker: "Hamlet", cite: "Shakespeare, Hamlet, 5.1" },
+      { quote: "Alexander died, Alexander was buried, Alexander returneth into dust; the dust is earth; of earth we make loam.", speaker: "Hamlet", cite: "Shakespeare, Hamlet, 5.1" },
+      { quote: "Imperious Caesar, dead and turn'd to clay, / Might stop a hole to keep the wind away.", speaker: "Hamlet", cite: "Shakespeare, Hamlet, 5.1" },
+      { quote: "What is he that builds stronger than either the mason, the shipwright, or the carpenter? A gravemaker — the houses he makes last till doomsday.", speaker: "First Clown", cite: "Shakespeare, Hamlet, 5.1" },
+      { quote: "How long will a man lie i' the earth ere he rot?", speaker: "Hamlet", cite: "Shakespeare, Hamlet, 5.1" },
+    ];
+
+    const WORKS_CITED = [
+      "Klages, Mary. Literary Theory for Beginners. 2017.",
+      "The Lion King. Directed by Roger Allers and Rob Minkoff, Walt Disney Pictures, 1994.",
+      'Rice, Tim, lyricist, and Elton John, composer. "Hakuna Matata." The Lion King: Original Motion Picture Soundtrack, Walt Disney Records, 1994.',
+      "Shakespeare, William. Hamlet. Edited by Rex Gibson, Cambridge University Press, 2014. Cambridge School Shakespeare.",
+    ];
+
+    /* ── small components ── */
+
+    function FitBar({ value, color }) {
+      return (
+        <div style={{ display:"flex", alignItems:"center", gap:12 }}>
+          <div style={{ flex:1, height:8, background:"#e8e8e8", borderRadius:4, overflow:"hidden" }}>
+            <div style={{ height:"100%", width:`${value}%`, background:color, borderRadius:4, transition:"width 0.6s ease" }} />
+          </div>
+          <span style={{ fontSize:16, fontWeight:700, color, minWidth:40 }}>{value}%</span>
+        </div>
+      );
+    }
+
+    function Section({ title, children }) {
+      return (
+        <div style={{ background:"#fff", border:"1px solid #e8e8e8", borderRadius:12, padding:28, marginBottom:16 }}>
+          <div style={{ fontSize:11, fontWeight:700, letterSpacing:2, color:"#aaa", textTransform:"uppercase", marginBottom:16 }}>
+            {title}
+          </div>
+          {children}
+        </div>
+      );
+    }
+
+    function QuoteBlock({ quote, source, borderColor }) {
+      return (
+        <div style={{ borderLeft:`3px solid ${borderColor}44`, paddingLeft:14, marginBottom:10 }}>
+          <div style={{ fontStyle:"italic", fontFamily:"Georgia, serif", fontSize:14, color:"#444", lineHeight:1.65 }}>
+            "{quote}"
+          </div>
+          <div style={{ fontSize:11, color:"#aaa", marginTop:4, fontFamily:"system-ui, sans-serif", letterSpacing:0.5 }}>
+            {source}
+          </div>
+        </div>
+      );
+    }
+
+    function Terminal() {
+      const [lines, setLines] = useState([]);
+      const [idx, setIdx]     = useState(0);
+      const ref               = useRef(null);
+
+      useEffect(() => {
+        const iv = setInterval(() => {
+          setLines(prev => [...prev, TERMINAL_LINES[idx % TERMINAL_LINES.length]].slice(-8));
+          setIdx(i => i + 1);
+        }, 2200);
+        return () => clearInterval(iv);
+      }, [idx]);
+
+      useEffect(() => {
+        if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
+      }, [lines]);
+
+      return (
+        <div style={{ background:"#1a1a1a", borderRadius:12, padding:24, marginBottom:16 }}>
+          <div style={{ fontSize:11, fontWeight:700, letterSpacing:2, color:"#666", textTransform:"uppercase", marginBottom:4 }}>
+            The Floor Beneath Every Argument
+          </div>
+          <div style={{ fontSize:13, color:"#888", marginBottom:16, lineHeight:1.6 }}>
+            The Gravediggers speak regardless of which prince you're studying. Death bypasses every reading,
+            every defense, every philosophy of forgetting. This section doesn't change when you toggle.
+          </div>
+          <div ref={ref} style={{ height:160, overflowY:"auto" }}>
+            {lines.map((line, i) => (
+              <div key={i} style={{ marginBottom:14, opacity: i === lines.length - 1 ? 1 : 0.4 + (i / lines.length) * 0.6 }}>
+                <div style={{ color:"#ddd", fontSize:14, fontFamily:"Georgia, serif", fontStyle:"italic", lineHeight:1.6 }}>
+                  "{line.quote}"
+                </div>
+                <div style={{ color:"#666", fontSize:11, marginTop:3, fontFamily:"system-ui, sans-serif" }}>
+                  — {line.speaker} &nbsp;·&nbsp; <span style={{ color:"#444" }}>{line.cite}</span>
+                </div>
+              </div>
+            ))}
+            <span style={{ color:"#555", fontSize:12 }}>—</span>
+          </div>
+        </div>
+      );
+    }
+
+    /* ── main app ── */
+
+    function App() {
+      const [subject,        setSubject]        = useState(HAMLET);
+      const [mirrorRevealed, setMirrorRevealed] = useState(false);
+      const d = DATA[subject];
+
+      const handleSwitch = (s) => {
+        if (s === subject) return;
+        setSubject(s);
+        setMirrorRevealed(false);
+      };
+
+      return (
+        <div style={{ background:"#f5f5f3", minHeight:"100vh", padding:"32px 24px", maxWidth:760, margin:"0 auto", fontFamily:"Georgia, serif" }}>
+
+          {/* Header */}
+          <div style={{ marginBottom:32 }}>
+            <div style={{ fontSize:12, letterSpacing:2, color:"#aaa", textTransform:"uppercase", marginBottom:12, fontFamily:"system-ui, sans-serif" }}>
+              Psychoanalytic Comparison
+            </div>
+            <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:16 }}>
+              <div style={{ fontSize:26, fontWeight:700, color:"#1a1a1a" }}>
+                {subject === HAMLET ? "Hamlet" : "The Lion King"}
+              </div>
+              <div style={{ display:"flex", background:"#e8e8e8", borderRadius:8, padding:3 }}>
+                {[HAMLET, SIMBA].map(s => (
+                  <button key={s} onClick={() => handleSwitch(s)} style={{
+                    padding:"8px 20px",
+                    background: subject === s ? (s === HAMLET ? H_COLOR : S_COLOR) : "transparent",
+                    color: subject === s ? "#fff" : "#888",
+                    border:"none", borderRadius:6, cursor:"pointer",
+                    fontFamily:"system-ui, sans-serif", fontWeight:600, fontSize:13, transition:"all 0.2s",
+                  }}>
+                    {s === HAMLET ? "Hamlet" : "Simba"}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* 1. Framework fit */}
+          <Section title="How well does the psychoanalytic reading fit?">
+            <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+              <div>
+                <div style={{ fontSize:12, color:"#aaa", marginBottom:6, fontFamily:"system-ui, sans-serif" }}>Hamlet</div>
+                <FitBar value={91} color={H_COLOR} />
+              </div>
+              <div>
+                <div style={{ fontSize:12, color:"#aaa", marginBottom:6, fontFamily:"system-ui, sans-serif" }}>Simba</div>
+                <FitBar value={64} color={S_COLOR} />
+              </div>
+              <div style={{ marginTop:8, padding:"14px 16px", background:d.accent, borderRadius:8, fontSize:15, color:"#333", lineHeight:1.7, transition:"background 0.3s" }}>
+                {d.fitNote}
+              </div>
+              <div style={{ marginTop:6, display:"flex", flexDirection:"column", gap:0 }}>
+                {d.fitEvidence.map((e, i) => <QuoteBlock key={i} quote={e.quote} source={e.source} borderColor={d.color} />)}
+              </div>
+            </div>
+          </Section>
+
+          {/* 2. Oedipal triangles */}
+          <Section title={subject === HAMLET ? "Two Oedipal Triangles — Hamlet has both; The Lion King has only one" : "The Oedipal Triangle — which one maps to Hamlet?"}>
+            <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+              {d.triangles.map((tri, i) => (
+                <div key={i} style={{
+                  border:`1px solid ${tri.parallel ? d.color + "55" : "#e8e8e8"}`,
+                  borderRadius:10, padding:20,
+                  background: tri.parallel ? d.accent : "#fafafa",
+                  transition:"background 0.3s, border-color 0.3s",
+                }}>
+                  <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:10, flexWrap:"wrap", gap:8 }}>
+                    <div>
+                      <div style={{ fontWeight:700, fontSize:14, color:"#1a1a1a", fontFamily:"system-ui, sans-serif", marginBottom:4 }}>{tri.label}</div>
+                      <div style={{ fontSize:12, color:"#999", fontFamily:"system-ui, sans-serif", letterSpacing:0.5 }}>{tri.nodes}</div>
+                    </div>
+                    {tri.tag && (
+                      <div style={{ padding:"4px 10px", background:d.color, color:"#fff", borderRadius:20, fontSize:11, fontFamily:"system-ui, sans-serif", fontWeight:600, whiteSpace:"nowrap" }}>
+                        {tri.tag}
+                      </div>
+                    )}
+                  </div>
+                  <div style={{ fontSize:14, color:"#444", lineHeight:1.75, marginBottom:14 }}>{tri.description}</div>
+                  {tri.evidence.map((e, j) => <QuoteBlock key={j} quote={e.quote} source={e.source} borderColor={d.color} />)}
+                </div>
+              ))}
+              {subject === HAMLET && (
+                <div style={{ padding:"12px 16px", background:"#f5f5f5", borderRadius:8, fontSize:13, color:"#666", lineHeight:1.65, borderLeft:"3px solid #ccc" }}>
+                  <strong style={{ color:"#333" }}>The key argument:</strong> Triangle 1 is what makes Hamlet's psychoanalytic reading richer and more loaded than Simba's. The Lion King has one triangle; Hamlet has two, and they collapse into each other. Claudius hasn't just taken the throne — he has enacted the desire of Triangle 1.
+                </div>
+              )}
+            </div>
+          </Section>
+
+          {/* 3. Avoidance */}
+          <Section title="Can the prince avoid the trauma?">
+            <div style={{ marginBottom:16 }}>
+              <div style={{
+                display:"inline-block", padding:"10px 18px", borderRadius:8,
+                background: d.avoidance.canEscape ? S_COLOR : "#e8e8e8",
+                color: d.avoidance.canEscape ? "#fff" : "#aaa",
+                fontWeight:700, fontSize:13, fontFamily:"system-ui, sans-serif", transition:"all 0.3s",
+              }}>
+                {d.avoidance.canEscape ? "Yes — runs away" : "No — cannot escape"}
+              </div>
+            </div>
+            <div style={{ fontSize:15, color:"#444", lineHeight:1.75 }}>{d.avoidance.note}</div>
+            {subject === SIMBA && (
+              <div style={{ marginTop:14, padding:"12px 16px", background:"#f5f5f5", borderRadius:8, fontSize:14, color:"#666", lineHeight:1.65, borderLeft:`3px solid ${S_COLOR}` }}>
+                <strong style={{ color:"#333" }}>What Timon & Pumbaa actually do:</strong> they aren't just comic sidekicks. They're the mechanism that makes avoidance possible — and sustainable for years.
+              </div>
+            )}
+            {subject === HAMLET && (
+              <div style={{ marginTop:14, padding:"12px 16px", background:"#f5f5f5", borderRadius:8, fontSize:14, color:"#666", lineHeight:1.65, borderLeft:`3px solid ${H_COLOR}` }}>
+                <strong style={{ color:"#333" }}>Why this matters:</strong> Hamlet's paralysis isn't weakness. It's what happens when there's nowhere to run and no philosophy of forgetting available.
+              </div>
+            )}
+          </Section>
+
+          {/* 4. Mirror moment */}
+          <Section title="What forces the prince to finally confront the father?">
+            <div style={{ marginBottom:16 }}>
+              <button onClick={() => setMirrorRevealed(!mirrorRevealed)} style={{
+                padding:"10px 20px",
+                background: mirrorRevealed ? d.color : "#fff",
+                color: mirrorRevealed ? "#fff" : d.color,
+                border:`2px solid ${d.color}`, borderRadius:8,
+                cursor:"pointer", fontFamily:"system-ui, sans-serif", fontWeight:600, fontSize:13, transition:"all 0.2s",
+              }}>
+                {mirrorRevealed ? "Hide" : subject === HAMLET ? "The Ghost appears →" : "Nala arrives →"}
+              </button>
+            </div>
+            {mirrorRevealed ? (
+              <div style={{ fontSize:15, color:"#444", lineHeight:1.75 }}>
+                <strong style={{ color:"#1a1a1a" }}>{d.mirror.catalyst}</strong> acts as a mirror — reflecting the father back at the prince and making avoidance impossible.
+                <br /><br />
+                {d.mirror.note}
+                {subject === SIMBA && (
+                  <div style={{ marginTop:14, padding:"12px 16px", background:"#f5f5f5", borderRadius:8, fontSize:14, color:"#666", lineHeight:1.65, borderLeft:`3px solid ${S_COLOR}` }}>
+                    This is where the Lacanian reading gets interesting: Simba gets to have years in the Imaginary (the Hakuna Matata phase) before the mirror breaks. Hamlet never gets that. The Ghost arrives in Act I.
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div style={{ fontSize:14, color:"#bbb", fontStyle:"italic" }}>Click to reveal the catalyst.</div>
+            )}
+          </Section>
+
+          {/* 5. Comic pair */}
+          <Section title="What does the comic pair actually do?">
+            <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:16 }}>
+              {Object.entries(DATA).map(([key, val]) => {
+                const active = subject === key;
+                return (
+                  <div key={key} style={{
+                    padding:16, borderRadius:10,
+                    background: active ? val.accent : "#f5f5f5",
+                    border:`1px solid ${active ? val.color + "44" : "#e8e8e8"}`,
+                    opacity: active ? 1 : 0.5, transition:"all 0.3s",
+                  }}>
+                    <div style={{ fontWeight:700, fontSize:14, color:val.color, marginBottom:4, fontFamily:"system-ui, sans-serif" }}>{val.comic.pair}</div>
+                    <div style={{ fontSize:12, color:"#999", marginBottom:10, fontFamily:"system-ui, sans-serif", letterSpacing:0.5 }}>{val.comic.fn}</div>
+                    <div style={{ fontSize:13, color:"#555", lineHeight:1.65, marginBottom:10 }}>{val.comic.note}</div>
+                    <div style={{ fontSize:12, color:"#888", lineHeight:1.6, fontStyle:"italic" }}>For the audience: {val.comic.audienceRole}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </Section>
+
+          {/* Terminal */}
+          <Terminal />
+
+          {/* Works Cited */}
+          <div style={{ background:"#fff", border:"1px solid #e8e8e8", borderRadius:12, padding:28, marginBottom:16 }}>
+            <div style={{ fontSize:11, fontWeight:700, letterSpacing:2, color:"#aaa", textTransform:"uppercase", marginBottom:20 }}>
+              Works Cited
+            </div>
+            <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+              {WORKS_CITED.map((entry, i) => (
+                <div key={i} style={{ paddingLeft:24, textIndent:"-24px", fontSize:14, color:"#444", lineHeight:1.8, fontFamily:"Georgia, serif" }}>
+                  {entry}
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop:16, fontSize:11, color:"#ccc", fontFamily:"system-ui, sans-serif" }}>MLA 9th edition</div>
+          </div>
+
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
